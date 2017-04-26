@@ -1,5 +1,5 @@
 # Core Search Play Seed
-Skeleton Play Framework application with most of the dependencies and configurations that Core Search typically needs
+This template generates a skeleton Play Framework application with most of the dependencies and configurations that Core Search typically needs.
 
 # Recommended Usage
 This repo is designed for forking and referencing for basic project setup.
