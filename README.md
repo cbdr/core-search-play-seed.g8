@@ -27,7 +27,7 @@ sbt new cbdr/core-search-play-seed.g8 --name=my-awesome-play-app
 ```
 This will forgo the prompts and create your Play app with the name _my-awesome-play-app_ with the default values for the other parameters.
 # Recommended Usage
-This repo is designed for forking and referencing for basic project setup.
+This template is designed for basic project setup.
 Your Play Framework application probably does not require every library and configuration included in this repo.
 In fact, it is highly unlikely. During your productionization process (or earlier), be sure to remove all unneeded
 dependencies and configurations. Remember that includes the configurations made in your production.conf stored in S3.
