@@ -1,12 +1,36 @@
 # Core Search Play Seed
 This template generates a skeleton Play Framework application with most of the dependencies and configurations that Core Search typically needs.
+# Prerequisites
+You must install Giter8 and SBT to use this template.
+```sh
+brew install giter8
+brew install sbt
+```
+# Running
+If you want to create a project
+```sh
+sbt new cbdr/core-search-play-seed.g8
+```
+You will be prompted to enter some variables
+```sh
+name [core-search-play-seed]:
+organization [careerbuilder]: 
+scala_version [2.11.8]: 
+scalatestplusplay_version [2.0.0]: 
+play_version [2.5.14]: 
+```
+If you do not enter your own values, the defaults in the brackets will be used (you should definitely override the name).
 
+For even faster project generation
+```sh
+sbt new cbdr/core-search-play-seed.g8 --name=my-awesome-play-app
+```
+This will forgo the prompts and create your Play app with the name _my-awesome-play-app_ with the default values for the other parameters.
 # Recommended Usage
 This repo is designed for forking and referencing for basic project setup.
 Your Play Framework application probably does not require every library and configuration included in this repo.
 In fact, it is highly unlikely. During your productionization process (or earlier), be sure to remove all unneeded
 dependencies and configurations. Remember that includes the configurations made in your production.conf stored in S3.
-
 
 # What's Included
 * ScalaTest
@@ -43,4 +67,4 @@ There is an [example Chef cookbook][3] that is referenced in the Nimbus file. It
 [1]: https://github.com/cbdr/TODO  "Play seed Nimbus template"
 [2]: https://github.com/cbdr/TODO  "Play seed Nimbus settings file"
 [3]: https://github.com/cbdr/TODO  "Play seed Chef cookbook"
-[4]: https://github.com/cbdr/core-search-play-seed/blob/master/conf/application.conf "Play seed configuration file"
+[4]: https://github.com/cbdr/core-search-play-seed.g8/blob/master/src/main/g8/conf/application.conf "Play seed configuration file"
