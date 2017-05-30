@@ -1,4 +1,7 @@
-name := """$name$"""
+name := """$name$""".toLowerCase
+
+lazy val ecsRepoNamespace = """$ecs_repo_namespace$"""
+
 organization := "$organization$"
 
 version := "1.0-SNAPSHOT"
@@ -22,8 +25,28 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" % "akka-testkit_2.11" % "2.4.16"
 )
 
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "$organization$.controllers._"
+enablePlugins(sbtdocker.DockerPlugin, JavaAppPackaging)
 
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "$organization$.binders._"
+dockerfile in docker := {
+  val appDir: File = stage.value
+  val targetDir = "/app"
+
+  new Dockerfile {
+    from("java")
+    entryPoint(s"$targetDir/bin/${executableScriptName.value}")
+    copy(appDir, targetDir)
+  }
+}
+
+imageNames in docker := Seq(
+  // Sets a name with a tag that contains the project version
+  //ImageName(s"${organization.value}/${name.value}:${sys.props.getOrElse("IMAGE_TAG", default = version.value)}"),
+  ImageName(
+    namespace = Some(ecsRepoNamespace),
+    repository = name.value,
+    // We parse the IMAGE_TAG env var which allows us to override the tag at build time
+    tag = Some("latest")
+  )
+)
+
+addCommandAlias("dockerize", ";clean;stage;compile;docker")
