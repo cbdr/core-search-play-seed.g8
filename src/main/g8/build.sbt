@@ -39,12 +39,9 @@ dockerfile in docker := {
 }
 
 imageNames in docker := Seq(
-  // Sets a name with a tag that contains the project version
-  //ImageName(s"${organization.value}/${name.value}:${sys.props.getOrElse("IMAGE_TAG", default = version.value)}"),
   ImageName(
     namespace = Some(ecsRepoNamespace),
     repository = name.value,
-    // We parse the IMAGE_TAG env var which allows us to override the tag at build time
     tag = Some("latest")
   )
 )
