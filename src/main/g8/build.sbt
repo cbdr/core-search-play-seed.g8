@@ -33,7 +33,7 @@ dockerfile in docker := {
 
   new Dockerfile {
     from("java")
-    entryPoint(s"$targetDir/bin/${executableScriptName.value}")
+    entryPoint(s"\$targetDir/bin/\${executableScriptName.value}")
     copy(appDir, targetDir)
   }
 }
