@@ -2,7 +2,7 @@ name := """$name$""".toLowerCase
 
 lazy val ecsRepoNamespace = """$ecs_repo_namespace$"""
 
-organization := "$organization$"
+organization := "careerbuilder"
 
 version := "1.0-SNAPSHOT"
 
