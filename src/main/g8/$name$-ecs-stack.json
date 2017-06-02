@@ -1,43 +1,43 @@
 {
-  "AWSTemplateFormatVersion":"2010-09-09",
-  "Parameters":{
-    "KeyName":{
-      "Type":"AWS::EC2::KeyPair::KeyName",
-      "Description":"Name of an existing EC2 KeyPair to enable SSH access to the ECS instances."
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "KeyName": {
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Description": "Name of an existing EC2 KeyPair to enable SSH access to the ECS instances."
     },
-    "VpcId":{
-      "Type":"AWS::EC2::VPC::Id",
-      "Description":"Select a VPC that allows instances to access the Internet."
+    "VpcId": {
+      "Type": "AWS::EC2::VPC::Id",
+      "Description": "Select a VPC that allows instances to access the Internet."
     },
-    "SubnetID":{
-      "Type":"List<AWS::EC2::Subnet::Id>",
-      "Description":"Select at two subnets in your selected VPC."
+    "SubnetID": {
+      "Type": "List<AWS::EC2::Subnet::Id>",
+      "Description": "Select at two subnets in your selected VPC."
     },
-    "MinSize":{
-      "Type":"Number",
-      "Default":"2",
-      "Description":"Minimum number of instances that can be launched in your ECS cluster."
+    "MinSize": {
+      "Type": "Number",
+      "Default": "2",
+      "Description": "Minimum number of instances that can be launched in your ECS cluster."
     },
-    "MaxSize":{
-      "Type":"Number",
-      "Default":"2",
-      "Description":"Maximum number of instances that can be launched in your ECS cluster."
+    "MaxSize": {
+      "Type": "Number",
+      "Default": "2",
+      "Description": "Maximum number of instances that can be launched in your ECS cluster."
     },
-    "DesiredCount":{
-      "Type":"Number",
-      "Default":"1",
-      "Description":"The desired number of tasks the ECS service runs. This should be at least one less than the number of EC2 instances in your cluster for easy deployment."
+    "DesiredCount": {
+      "Type": "Number",
+      "Default": "1",
+      "Description": "The desired number of tasks the ECS service runs. This should be at least one less than the number of EC2 instances in your cluster for easy deployment."
     },
-    "ImageTag":{
-      "Type":"String",
-      "Default":"stable",
-      "Description":"The tag for the image in ECR you wish to launch."
+    "ImageTag": {
+      "Type": "String",
+      "Default": "stable",
+      "Description": "The tag for the image in ECR you wish to launch."
     },
-    "InstanceType":{
-      "Description":"EC2 instance type",
-      "Type":"String",
-      "Default":"t2.micro",
-      "AllowedValues":[
+    "InstanceType": {
+      "Description": "EC2 instance type",
+      "Type": "String",
+      "Default": "t2.micro",
+      "AllowedValues": [
         "t2.micro",
         "t2.small",
         "t2.medium",
@@ -71,310 +71,312 @@
         "i2.4xlarge",
         "i2.8xlarge"
       ],
-      "ConstraintDescription":"Please choose a valid instance type."
+      "ConstraintDescription": "Please choose a valid instance type."
     }
   },
-  "Mappings":{
-    "AWSRegionToAMI":{
-      "us-east-1":{
-        "AMIID":"ami-eca289fb"
+  "Mappings": {
+    "AWSRegionToAMI": {
+      "us-east-1": {
+        "AMIID": "ami-eca289fb"
       },
-      "us-east-2":{
-        "AMIID":"ami-446f3521"
+      "us-east-2": {
+        "AMIID": "ami-446f3521"
       },
-      "us-west-1":{
-        "AMIID":"ami-9fadf8ff"
+      "us-west-1": {
+        "AMIID": "ami-9fadf8ff"
       },
-      "us-west-2":{
-        "AMIID":"ami-7abc111a"
+      "us-west-2": {
+        "AMIID": "ami-7abc111a"
       },
-      "eu-west-1":{
-        "AMIID":"ami-a1491ad2"
+      "eu-west-1": {
+        "AMIID": "ami-a1491ad2"
       },
-      "eu-central-1":{
-        "AMIID":"ami-54f5303b"
+      "eu-central-1": {
+        "AMIID": "ami-54f5303b"
       },
-      "ap-northeast-1":{
-        "AMIID":"ami-9cd57ffd"
+      "ap-northeast-1": {
+        "AMIID": "ami-9cd57ffd"
       },
-      "ap-southeast-1":{
-        "AMIID":"ami-a900a3ca"
+      "ap-southeast-1": {
+        "AMIID": "ami-a900a3ca"
       },
-      "ap-southeast-2":{
-        "AMIID":"ami-5781be34"
+      "ap-southeast-2": {
+        "AMIID": "ami-5781be34"
       }
     }
   },
-  "Resources":{
-    "ECSCluster":{
-      "Type":"AWS::ECS::Cluster",
+  "Resources": {
+    "ECSCluster": {
+      "Type": "AWS::ECS::Cluster",
       "Properties": {
-          "ClusterName": "$name$-cluster"
+        "ClusterName": "$name$-cluster"
       }
     },
-    "EcsSecurityGroup":{
-      "Type":"AWS::EC2::SecurityGroup",
-      "Properties":{
-        "GroupDescription":"ECS Security Group",
-        "VpcId":{
-          "Ref":"VpcId"
+    "EcsSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "ECS Security Group",
+        "VpcId": {
+          "Ref": "VpcId"
         }
       }
     },
-    "EcsSecurityGroupHTTPinbound":{
-      "Type":"AWS::EC2::SecurityGroupIngress",
-      "Properties":{
-        "GroupId":{
-          "Ref":"EcsSecurityGroup"
+    "EcsSecurityGroupHTTPinbound": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "EcsSecurityGroup"
         },
-        "IpProtocol":"tcp",
-        "FromPort":"80",
-        "ToPort":"80",
-        "CidrIp":"0.0.0.0/0"
+        "IpProtocol": "tcp",
+        "FromPort": "80",
+        "ToPort": "80",
+        "CidrIp": "0.0.0.0/0"
       }
     },
-    "EcsSecurityGroupSSHinbound":{
-      "Type":"AWS::EC2::SecurityGroupIngress",
-      "Properties":{
-        "GroupId":{
-          "Ref":"EcsSecurityGroup"
+    "EcsSecurityGroupSSHinbound": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "EcsSecurityGroup"
         },
-        "IpProtocol":"tcp",
-        "FromPort":"22",
-        "ToPort":"22",
-        "CidrIp":"0.0.0.0/0"
+        "IpProtocol": "tcp",
+        "FromPort": "22",
+        "ToPort": "22",
+        "CidrIp": "0.0.0.0/0"
       }
     },
-    "EcsSecurityGroupALBports":{
-      "Type":"AWS::EC2::SecurityGroupIngress",
-      "Properties":{
-        "GroupId":{
-          "Ref":"EcsSecurityGroup"
+    "EcsSecurityGroupALBports": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "GroupId": {
+          "Ref": "EcsSecurityGroup"
         },
-        "IpProtocol":"tcp",
-        "FromPort":"31000",
-        "ToPort":"61000",
-        "SourceSecurityGroupId":{
-          "Ref":"EcsSecurityGroup"
+        "IpProtocol": "tcp",
+        "FromPort": "31000",
+        "ToPort": "61000",
+        "SourceSecurityGroupId": {
+          "Ref": "EcsSecurityGroup"
         }
       }
     },
-    "CloudwatchLogsGroup":{
-      "Type":"AWS::Logs::LogGroup",
-      "Properties":{
-        "LogGroupName":{
-          "Fn::Join":[
+    "CloudwatchLogsGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
             "-",
             [
               "ECSLogGroup",
               {
-                "Ref":"AWS::StackName"
+                "Ref": "AWS::StackName"
               }
             ]
           ]
         },
-        "RetentionInDays":14
+        "RetentionInDays": 14
       }
     },
-    "taskdefinition":{
-      "Type":"AWS::ECS::TaskDefinition",
-      "Properties":{
-        "Family":{
-          "Fn::Join":[
+    "taskdefinition": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "Family": {
+          "Fn::Join": [
             "",
             [
               {
-                "Ref":"AWS::StackName"
+                "Ref": "AWS::StackName"
               },
               "-$name$-task-def"
             ]
           ]
         },
-        "ContainerDefinitions":[
+        "ContainerDefinitions": [
           {
-            "Name":"$name$-task",
-            "Cpu":"10",
-            "Essential":"true",
+            "Name": "$name$-task",
+            "Cpu": "10",
+            "Essential": "true",
             "Image": {
               "Fn::Join": [
                 ":",
-                "227029288974.dkr.ecr.us-east-1.amazonaws.com/$name$",
-                {
-                  "Ref": "ImageTag"
-                }
+                [
+                  "227029288974.dkr.ecr.us-east-1.amazonaws.com/$name$",
+                  {
+                    "Ref": "ImageTag"
+                  }
+                ]
               ]
             },
-            "Memory":"300",
-            "LogConfiguration":{
-              "LogDriver":"awslogs",
-              "Options":{
-                "awslogs-group":{
-                  "Ref":"CloudwatchLogsGroup"
+            "Memory": "300",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "CloudwatchLogsGroup"
                 },
-                "awslogs-region":{
-                  "Ref":"AWS::Region"
+                "awslogs-region": {
+                  "Ref": "AWS::Region"
                 },
-                "awslogs-stream-prefix":"$name$-task"
+                "awslogs-stream-prefix": "$name$-task"
               }
             },
-            "PortMappings":[
+            "PortMappings": [
               {
-                "HostPort":80,
-                "ContainerPort":9000
+                "HostPort": 80,
+                "ContainerPort": 9000
               }
             ]
           }
         ]
       }
     },
-    "ECSALB":{
-      "Type":"AWS::ElasticLoadBalancingV2::LoadBalancer",
-      "Properties":{
-        "Name":"$name$-ECSALB",
-        "Scheme":"internal",
-        "LoadBalancerAttributes":[
+    "ECSALB": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Name": "$name$-ECSALB",
+        "Scheme": "internal",
+        "LoadBalancerAttributes": [
           {
-            "Key":"idle_timeout.timeout_seconds",
-            "Value":"30"
+            "Key": "idle_timeout.timeout_seconds",
+            "Value": "30"
           }
         ],
-        "Subnets":{
-          "Ref":"SubnetID"
+        "Subnets": {
+          "Ref": "SubnetID"
         },
-        "SecurityGroups":[
+        "SecurityGroups": [
           {
-            "Ref":"EcsSecurityGroup"
+            "Ref": "EcsSecurityGroup"
           }
         ]
       }
     },
-    "ALBListener":{
-      "Type":"AWS::ElasticLoadBalancingV2::Listener",
-      "DependsOn":"ECSServiceRole",
-      "Properties":{
-        "DefaultActions":[
+    "ALBListener": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "DependsOn": "ECSServiceRole",
+      "Properties": {
+        "DefaultActions": [
           {
-            "Type":"forward",
-            "TargetGroupArn":{
-              "Ref":"ECSTG"
+            "Type": "forward",
+            "TargetGroupArn": {
+              "Ref": "ECSTG"
             }
           }
         ],
-        "LoadBalancerArn":{
-          "Ref":"ECSALB"
+        "LoadBalancerArn": {
+          "Ref": "ECSALB"
         },
-        "Port":"80",
-        "Protocol":"HTTP"
+        "Port": "80",
+        "Protocol": "HTTP"
       }
     },
-    "ECSALBListenerRule":{
-      "Type":"AWS::ElasticLoadBalancingV2::ListenerRule",
-      "DependsOn":"ALBListener",
-      "Properties":{
-        "Actions":[
+    "ECSALBListenerRule": {
+      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+      "DependsOn": "ALBListener",
+      "Properties": {
+        "Actions": [
           {
-            "Type":"forward",
-            "TargetGroupArn":{
-              "Ref":"ECSTG"
+            "Type": "forward",
+            "TargetGroupArn": {
+              "Ref": "ECSTG"
             }
           }
         ],
-        "Conditions":[
+        "Conditions": [
           {
-            "Field":"path-pattern",
-            "Values":[
+            "Field": "path-pattern",
+            "Values": [
               "/"
             ]
           }
         ],
-        "ListenerArn":{
-          "Ref":"ALBListener"
+        "ListenerArn": {
+          "Ref": "ALBListener"
         },
-        "Priority":1
+        "Priority": 1
       }
     },
-    "ECSTG":{
-      "Type":"AWS::ElasticLoadBalancingV2::TargetGroup",
-      "DependsOn":"ECSALB",
-      "Properties":{
-        "HealthCheckIntervalSeconds":10,
-        "HealthCheckPath":"/",
-        "HealthCheckProtocol":"HTTP",
-        "HealthCheckTimeoutSeconds":5,
-        "HealthyThresholdCount":2,
-        "Name":"$name$-ECSTG",
-        "Port":80,
-        "Protocol":"HTTP",
-        "UnhealthyThresholdCount":2,
-        "VpcId":{
-          "Ref":"VpcId"
+    "ECSTG": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "DependsOn": "ECSALB",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 10,
+        "HealthCheckPath": "/",
+        "HealthCheckProtocol": "HTTP",
+        "HealthCheckTimeoutSeconds": 5,
+        "HealthyThresholdCount": 2,
+        "Name": "$name$-ECSTG",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "UnhealthyThresholdCount": 2,
+        "VpcId": {
+          "Ref": "VpcId"
         }
       }
     },
-    "ECSAutoScalingGroup":{
-      "Type":"AWS::AutoScaling::AutoScalingGroup",
-      "Properties":{
-        "VPCZoneIdentifier":{
-          "Ref":"SubnetID"
+    "ECSAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "VPCZoneIdentifier": {
+          "Ref": "SubnetID"
         },
-        "LaunchConfigurationName":{
-          "Ref":"ContainerInstances"
+        "LaunchConfigurationName": {
+          "Ref": "ContainerInstances"
         },
-        "MinSize":{
-          "Ref":"MinSize"
+        "MinSize": {
+          "Ref": "MinSize"
         },
-        "MaxSize":{
-          "Ref":"MaxSize"
+        "MaxSize": {
+          "Ref": "MaxSize"
         }
       }
     },
-    "ContainerInstances":{
-      "Type":"AWS::AutoScaling::LaunchConfiguration",
-      "Properties":{
-        "ImageId":{
-          "Fn::FindInMap":[
+    "ContainerInstances": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": {
+          "Fn::FindInMap": [
             "AWSRegionToAMI",
             {
-              "Ref":"AWS::Region"
+              "Ref": "AWS::Region"
             },
             "AMIID"
           ]
         },
-        "SecurityGroups":[
+        "SecurityGroups": [
           {
-            "Ref":"EcsSecurityGroup"
+            "Ref": "EcsSecurityGroup"
           }
         ],
-        "InstanceType":{
-          "Ref":"InstanceType"
+        "InstanceType": {
+          "Ref": "InstanceType"
         },
-        "IamInstanceProfile":{
-          "Ref":"EC2InstanceProfile"
+        "IamInstanceProfile": {
+          "Ref": "EC2InstanceProfile"
         },
-        "KeyName":{
-          "Ref":"KeyName"
+        "KeyName": {
+          "Ref": "KeyName"
         },
-        "UserData":{
-          "Fn::Base64":{
-            "Fn::Join":[
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
               "",
               [
                 "#!/bin/bash -xe\n",
                 "echo ECS_CLUSTER=",
                 {
-                  "Ref":"ECSCluster"
+                  "Ref": "ECSCluster"
                 },
                 " >> /etc/ecs/ecs.config\n",
                 "yum install -y aws-cfn-bootstrap\n",
                 "/opt/aws/bin/cfn-signal -e \$? ",
                 "         --stack ",
                 {
-                  "Ref":"AWS::StackName"
+                  "Ref": "AWS::StackName"
                 },
                 "         --resource ECSAutoScalingGroup ",
                 "         --region ",
                 {
-                  "Ref":"AWS::Region"
+                  "Ref": "AWS::Region"
                 },
                 "\n"
               ]
@@ -383,60 +385,60 @@
         }
       }
     },
-    "service":{
-      "Type":"AWS::ECS::Service",
-      "DependsOn":"ALBListener",
-      "Properties":{
-        "Cluster":{
-          "Ref":"ECSCluster"
+    "service": {
+      "Type": "AWS::ECS::Service",
+      "DependsOn": "ALBListener",
+      "Properties": {
+        "Cluster": {
+          "Ref": "ECSCluster"
         },
-        "DesiredCount":{
+        "DesiredCount": {
           "Ref": "DesiredCount"
-          },
-        "LoadBalancers":[
+        },
+        "LoadBalancers": [
           {
-            "ContainerName":"$name$-task",
-            "ContainerPort":"9000",
-            "TargetGroupArn":{
-              "Ref":"ECSTG"
+            "ContainerName": "$name$-task",
+            "ContainerPort": "9000",
+            "TargetGroupArn": {
+              "Ref": "ECSTG"
             }
           }
         ],
-        "Role":{
-          "Ref":"ECSServiceRole"
+        "Role": {
+          "Ref": "ECSServiceRole"
         },
-        "TaskDefinition":{
-          "Ref":"taskdefinition"
+        "TaskDefinition": {
+          "Ref": "taskdefinition"
         }
       }
     },
-    "ECSServiceRole":{
-      "Type":"AWS::IAM::Role",
-      "Properties":{
-        "AssumeRolePolicyDocument":{
-          "Statement":[
+    "ECSServiceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Principal":{
-                "Service":[
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
                   "ecs.amazonaws.com"
                 ]
               },
-              "Action":[
+              "Action": [
                 "sts:AssumeRole"
               ]
             }
           ]
         },
-        "Path":"/",
-        "Policies":[
+        "Path": "/",
+        "Policies": [
           {
-            "PolicyName":"ecs-service",
-            "PolicyDocument":{
-              "Statement":[
+            "PolicyName": "ecs-service",
+            "PolicyDocument": {
+              "Statement": [
                 {
-                  "Effect":"Allow",
-                  "Action":[
+                  "Effect": "Allow",
+                  "Action": [
                     "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
                     "elasticloadbalancing:DeregisterTargets",
                     "elasticloadbalancing:Describe*",
@@ -445,7 +447,7 @@
                     "ec2:Describe*",
                     "ec2:AuthorizeSecurityGroupIngress"
                   ],
-                  "Resource":"*"
+                  "Resource": "*"
                 }
               ]
             }
@@ -453,33 +455,33 @@
         ]
       }
     },
-    "EC2Role":{
-      "Type":"AWS::IAM::Role",
-      "Properties":{
-        "AssumeRolePolicyDocument":{
-          "Statement":[
+    "EC2Role": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Principal":{
-                "Service":[
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
                   "ec2.amazonaws.com"
                 ]
               },
-              "Action":[
+              "Action": [
                 "sts:AssumeRole"
               ]
             }
           ]
         },
-        "Path":"/",
-        "Policies":[
+        "Path": "/",
+        "Policies": [
           {
-            "PolicyName":"ecs-service",
-            "PolicyDocument":{
-              "Statement":[
+            "PolicyName": "ecs-service",
+            "PolicyDocument": {
+              "Statement": [
                 {
-                  "Effect":"Allow",
-                  "Action":[
+                  "Effect": "Allow",
+                  "Action": [
                     "ecs:CreateCluster",
                     "ecs:DeregisterContainerInstance",
                     "ecs:DiscoverPollEndpoint",
@@ -498,7 +500,7 @@
                     "ecr:DescribeImages",
                     "ecr:BatchGetImage"
                   ],
-                  "Resource":"*"
+                  "Resource": "*"
                 }
               ]
             }
@@ -506,40 +508,40 @@
         ]
       }
     },
-    "AutoscalingRole":{
-      "Type":"AWS::IAM::Role",
-      "Properties":{
-        "AssumeRolePolicyDocument":{
-          "Statement":[
+    "AutoscalingRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
             {
-              "Effect":"Allow",
-              "Principal":{
-                "Service":[
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
                   "application-autoscaling.amazonaws.com"
                 ]
               },
-              "Action":[
+              "Action": [
                 "sts:AssumeRole"
               ]
             }
           ]
         },
-        "Path":"/",
-        "Policies":[
+        "Path": "/",
+        "Policies": [
           {
-            "PolicyName":"service-autoscaling",
-            "PolicyDocument":{
-              "Statement":[
+            "PolicyName": "service-autoscaling",
+            "PolicyDocument": {
+              "Statement": [
                 {
-                  "Effect":"Allow",
-                  "Action":[
+                  "Effect": "Allow",
+                  "Action": [
                     "application-autoscaling:*",
                     "cloudwatch:DescribeAlarms",
                     "cloudwatch:PutMetricAlarm",
                     "ecs:DescribeServices",
                     "ecs:UpdateService"
                   ],
-                  "Resource":"*"
+                  "Resource": "*"
                 }
               ]
             }
@@ -547,63 +549,64 @@
         ]
       }
     },
-    "EC2InstanceProfile":{
-      "Type":"AWS::IAM::InstanceProfile",
-      "Properties":{
-        "Path":"/",
-        "Roles":[
+    "EC2InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [
           {
-            "Ref":"EC2Role"
+            "Ref": "EC2Role"
           }
         ]
       }
     },
     "Route53": {
-            "Type": "AWS::Route53::RecordSetGroup",
-            "Properties": {
-                "HostedZoneName": "cb-search.com.",
-                "Comment": "$name$ app Route 53",
-                "RecordSets": [{
-                        "Name": "$name$.cb-search.com.",
-                        "Type": "A",
-                        "AliasTarget": {
-                            "HostedZoneId": {
-                                "Fn::GetAtt": [
-                                    "ECSALB",
-                                    "CanonicalHostedZoneID"
-                                ]
-                            },
-                            "DNSName": {
-                                "Fn::GetAtt": [
-                                    "ECSALB",
-                                    "DNSName"
-                                ]
-                            }
-                        }
-                    }
+      "Type": "AWS::Route53::RecordSetGroup",
+      "Properties": {
+        "HostedZoneName": "cb-search.com.",
+        "Comment": "$name$ app Route 53",
+        "RecordSets": [
+          {
+            "Name": "$name$.cb-search.com.",
+            "Type": "A",
+            "AliasTarget": {
+              "HostedZoneId": {
+                "Fn::GetAtt": [
+                  "ECSALB",
+                  "CanonicalHostedZoneID"
                 ]
+              },
+              "DNSName": {
+                "Fn::GetAtt": [
+                  "ECSALB",
+                  "DNSName"
+                ]
+              }
             }
-        }
+          }
+        ]
+      }
+    }
   },
-  "Outputs":{
-    "ecsservice":{
-      "Value":{
-        "Ref":"service"
+  "Outputs": {
+    "ecsservice": {
+      "Value": {
+        "Ref": "service"
       }
     },
-    "ecscluster":{
-      "Value":{
-        "Ref":"ECSCluster"
+    "ecscluster": {
+      "Value": {
+        "Ref": "ECSCluster"
       }
     },
-    "ECSALB":{
-      "Description":"Your ALB DNS URL",
-      "Value":{
-        "Fn::Join":[
+    "ECSALB": {
+      "Description": "Your ALB DNS URL",
+      "Value": {
+        "Fn::Join": [
           "",
           [
             {
-              "Fn::GetAtt":[
+              "Fn::GetAtt": [
                 "ECSALB",
                 "DNSName"
               ]
@@ -612,9 +615,9 @@
         ]
       }
     },
-    "taskdef":{
-      "Value":{
-        "Ref":"taskdefinition"
+    "taskdef": {
+      "Value": {
+        "Ref": "taskdefinition"
       }
     }
   }
