@@ -1,10 +1,12 @@
+import
+
 name := """$name$""".toLowerCase
 
 lazy val ecsRepoNamespace = """$ecs_repo_namespace$"""
 
 organization := "careerbuilder"
 
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -42,7 +44,7 @@ imageNames in docker := Seq(
   ImageName(
     namespace = Some(ecsRepoNamespace),
     repository = name.value,
-    tag = Some("latest")
+    tag = Some(version.value)
   )
 )
 
