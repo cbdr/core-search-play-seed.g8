@@ -1,8 +1,6 @@
-import
-
 name := """$name$""".toLowerCase
 
-lazy val ecsRepoNamespace = """$ecs_repo_namespace$"""
+lazy val ecsRepoNamespace = """227029288974.dkr.ecr.us-east-1.amazonaws.com"""
 
 organization := "careerbuilder"
 

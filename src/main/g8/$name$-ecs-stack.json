@@ -180,7 +180,7 @@
             "Name":"$name$-task",
             "Cpu":"10",
             "Essential":"true",
-            "Image":"$ecs_repo_namespace$/$name$:1.0",
+            "Image":"227029288974.dkr.ecr.us-east-1.amazonaws.com/$name$:1.0",
             "Memory":"300",
             "LogConfiguration":{
               "LogDriver":"awslogs",
