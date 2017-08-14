@@ -1,0 +1,37 @@
+node('Search'){
+    stage('Checkout') {
+        try {
+            checkout scm
+        } catch(e) {
+            println "trying fallback method of checkout"
+            git branch: env.BRANCH_NAME, url: 'https://github.com/cbdr/$name$', credentialsId: 'CloudOpsSvc'
+        }
+    }
+    stage('Build') {
+        sh '''#!/bin/bash -l
+            sbt clean compile
+        '''
+    }
+    stage('Test') {
+        sh '''#!/bin/bash -l
+            sbt test
+        '''
+    }
+    stage('Publish') {
+        if ('master' == env.BRANCH_NAME) {
+            withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
+                sh  '''#!/bin/bash -l
+            `bash acreds.sh arn:aws:iam::168998648679:role/jenkinsIAM`
+            docker login --username $DHUSERNAME --password $DHPASSWORD
+            sbt clean stage
+            rm -rf target/universal/stage/share
+            rm target/universal/stage/README.md
+            docker build --pull -t cbdr/$name$:j-$BUILD_NUMBER .
+            docker push cbdr/$name$:j-$BUILD_NUMBER
+            '''
+            }
+        } else {
+            println "Not on master, on branch: ${env.BRANCH_NAME}, nothing to publish"
+        }
+    }
+}
