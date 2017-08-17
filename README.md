@@ -14,8 +14,7 @@ sbt new cbdr/core-search-play-seed.g8
 You will be prompted to enter some variables
 ```sh
 name [core-search-play-seed]:
-organization [careerbuilder]: 
-scala_version [2.11.8]: 
+scala_version [2.11.11]:
 scalatestplusplay_version [2.0.0]: 
 play_version [2.5.14]: 
 ```
@@ -36,9 +35,8 @@ dependencies and configurations. Remember that includes the configurations made 
 * ScalaTest
 * Mockito
 * Akka TestKit (Akka is automatically included with Play)
-* ScalaJ-HTTP
 * Play Slick
-* Play Slick Evolutions
+* Slick Extensions
 * MySQL Driver
 * AWS SDK
 
