@@ -22,16 +22,16 @@ node('Search'){
             withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'DHPASSWORD', usernameVariable: 'DHUSERNAME')]) {
                 sh  '''#!/bin/bash -l
             `bash acreds.sh arn:aws:iam::168998648679:role/jenkinsIAM`
-            docker login --username $DHUSERNAME --password $DHPASSWORD
+            docker login --username \$DHUSERNAME --password \$DHPASSWORD
             sbt clean stage
             rm -rf target/universal/stage/share
             rm target/universal/stage/README.md
-            docker build --pull -t cbdr/$name$:j-$BUILD_NUMBER .
-            docker push cbdr/$name$:j-$BUILD_NUMBER
+            docker build --pull -t cbdr/$name$:j-\$BUILD_NUMBER .
+            docker push cbdr/$name$:j-\$BUILD_NUMBER
             '''
             }
         } else {
-            println "Not on master, on branch: ${env.BRANCH_NAME}, nothing to publish"
+            println "Not on master, on branch: \${env.BRANCH_NAME}, nothing to publish"
         }
     }
 }
