@@ -13,7 +13,7 @@ https://careerbuilder.atlassian.net/wiki/spaces/CRS/pages/18684493/Set+up+and+ho
 
 ```sh
 sbt dist
-docker run $with_creds -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 <DOCKER_REPO_NAME>
+docker run \$with_creds -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 <DOCKER_REPO_NAME>
 ```
 
 ## Production configurations
