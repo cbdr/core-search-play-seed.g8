@@ -13,7 +13,7 @@ libraryDependencies += filters
 libraryDependencies ++= Seq(
   cache,
   ws,
-  "org.scalatestplus.play" %% "scalatestplus-play" % "$scalatestplusplay_version" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "$scalatestplusplay_version$" % Test,
   "com.amazonaws" % "aws-java-sdk" % "1.11.48",
   "com.typesafe.play" % "play-slick_2.11" % "2.0.2",
   "com.typesafe.slick" %% "slick-extensions" % "3.1.0",
