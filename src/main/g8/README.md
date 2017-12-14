@@ -20,7 +20,7 @@ docker run \$with_creds -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='U
 
 ### Adding application configurations per environment
 
-Play configuration files can be customized using environment variables/and amazon parameter store. Review https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md#configuration-and-secret-storage-for-ecs-applications for more information, just think that parameters at the parameter store are set as environment variables for the docker container and the play application may use it on it's configurations by setting it as ${?VARIABLE_NAME} on any play application configuration file (https://www.playframework.com/documentation/2.6.x/ProductionConfiguration#Using-environment-variables)
+Play configuration files can be customized using environment variables/and amazon parameter store. Review https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md#configuration-and-secret-storage-for-ecs-applications for more information, just think that parameters at the parameter store are set as environment variables for the docker container and the play application may use it on it's configurations by setting it as \${?VARIABLE_NAME} on any play application configuration file (https://www.playframework.com/documentation/2.6.x/ProductionConfiguration#Using-environment-variables)
 
 ### Database configurations 
 
