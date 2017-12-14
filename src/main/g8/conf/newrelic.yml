@@ -256,7 +256,7 @@ common: &default_settings
     # This is a useful optimization for runtimes which use classloaders to
     # load dynamic classes which the agent would not instrument.
     classloader_excludes:
-      groovy.lang.GroovyClassLoader$InnerLoader,
+      groovy.lang.GroovyClassLoader\$InnerLoader,
       org.codehaus.groovy.runtime.callsite.CallSiteClassLoader,
       com.collaxa.cube.engine.deployment.BPELClassLoader,
       org.springframework.data.convert.ClassGeneratingEntityInstantiator\$ObjectInstantiatorClassGenerator,
