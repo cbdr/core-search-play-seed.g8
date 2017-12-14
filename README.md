@@ -56,13 +56,25 @@ _Note: This file should be used as a template and not as the actual production c
 
 # Deployment
 
-### Nimbus
+### AWS ECS
+
+#### Setup jenkins CI build
+Follow the instructions at :https://github.com/cbdr/CloudOps/blob/master/Jenkins/Readme.md to add a jenkins job for building your application and publishing an artifact of your appliction into dockerhub.
+
+#### Setup jenkins jobs to deploy the application into the search docker clusters
+Follow the instructions at :https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md to create and run the jenkins deployment jobs.
+
+#### Production configurations
+Containers resources 
+
+### Nimbus(deprecated)
 There is a [Nimbus template][1] for a typical Play Framework application and an example [Nimbus settings file][2] that you can reference.
 
-### Chef
+### Chef(deprecated)
 There is an [example Chef cookbook][3] that is referenced in the Nimbus file. It should get you most of the way to deployment, but you should make your own and use this as just a reference.
 
 [1]: https://github.com/cbdr/TODO  "Play seed Nimbus template"
 [2]: https://github.com/cbdr/TODO  "Play seed Nimbus settings file"
 [3]: https://github.com/cbdr/TODO  "Play seed Chef cookbook"
 [4]: https://github.com/cbdr/core-search-play-seed.g8/blob/master/src/main/g8/conf/application.conf "Play seed configuration file"
+
