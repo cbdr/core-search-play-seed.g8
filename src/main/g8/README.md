@@ -11,10 +11,8 @@ https://careerbuilder.atlassian.net/wiki/spaces/CRS/pages/18684493/Set+up+and+ho
 
 #### Run comands to compile the app and run inside a local docker container
 
-```bash
+```sh
 sbt dist
-```
-```bash
 docker run $with_creds -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 <DOCKER_REPO_NAME>
 ```
 
