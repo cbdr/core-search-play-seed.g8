@@ -9,11 +9,15 @@ Brief description of the seed application
 
 https://careerbuilder.atlassian.net/wiki/spaces/CRS/pages/18684493/Set+up+and+how-to+for+running+our+Docker+apps+like+production
 
+Note make sure you add your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY variables to the bash profile. So the docker container can use your AWS resources.
+
 #### Run comands to compile the app and run inside a local docker container
 
+The following will compile the app and run it inside docker, you will need to to setup the jenkins CI job before, see https://github.com/cbdr/core-search-play-seed.g8#setup-jenkins-ci-build
+
 ```sh
-sbt dist
-docker run \$with_creds -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 <DOCKER_REPO_NAME>
+sbt clean stage
+docker run -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 $name$ 
 ```
 
 ## Production configurations

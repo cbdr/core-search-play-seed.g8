@@ -13,10 +13,10 @@ sbt new cbdr/core-search-play-seed.g8
 ```
 You will be prompted to enter some variables
 ```sh
-name [core-search-play-seed]:
-scala_version [2.11.11]:
-scalatestplusplay_version [2.0.0]: 
-play_version [2.5.14]: 
+name [search-seed]:
+scala_version [2.12.2]:
+scalatestplusplay_version [3.0.0]: 
+play_version [2.6.0]: 
 ```
 If you do not enter your own values, the defaults in the brackets will be used (you should definitely override the name).
 
