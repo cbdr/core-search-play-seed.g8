@@ -1,5 +1,5 @@
-# Search Document Service Template
-Brief description of the seed application
+# $name$ 
+Explain what is the purpose of the application
 
 ## Local Build Instructions
 
@@ -11,25 +11,28 @@ https://careerbuilder.atlassian.net/wiki/spaces/CRS/pages/18684493/Set+up+and+ho
 
 Note make sure you add your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY variables to the bash profile. So the docker container can use your AWS resources.
 
-#### Run comands to compile the app and run inside a local docker container
+#### Run commands to compile the app and run inside a local docker container
 
-The following will compile the app and run it inside docker, you will need to to setup the jenkins CI job before, see https://github.com/cbdr/core-search-play-seed.g8#setup-jenkins-ci-build
+The following will compile the app and run it inside a local docker container. This is good to catch environment problems before moving on to production and simulate a real production environment.
 
 ```sh
 sbt clean stage
+docker build -t $name$ .
 docker run -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AURORA_PASSWORD='PWD' -p 80:80 $name$ 
 ```
 
-## Production configurations
+You can see the application running at: http://localhost/
 
-### Adding application configurations per environment
+### Run the application on your local server
 
-Play configuration files can be customized using environment variables/and amazon parameter store. Review https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md#configuration-and-secret-storage-for-ecs-applications for more information, just think that parameters at the parameter store are set as environment variables for the docker container and the play application may use it on it's configurations by setting it as \${?VARIABLE_NAME} on any play application configuration file (https://www.playframework.com/documentation/2.6.x/ProductionConfiguration#Using-environment-variables)
+This is the recommended aproach during development stages
 
-### Database configurations 
+```sh
+sbt run -DAURORA_URL=jdbc:mysql://usserenity-dbcluster1-1rr27xsvjwtcr.cluster-ci7amtl2mm8i.us-east-1.rds.amazonaws.com:3306 -DAURORA_USER=SearchUser01 -D AURORA_PASSWORD=S34rchS0lr
+```
 
-Add the AURORA_USER, AURORA_PASSWORD and AURORA_URL environment variables to the parameter store
+You can see the application running at: http://localhost:9000/
 
-### New relic configurations
+## Build and deploy process for CI
 
-Add the NEWRELIC_KEY and NEWRELIC_APPNAME environment variables to the parameter store.
+The following link has the information required: https://github.com/cbdr/core-search-play-seed.g8#deployment

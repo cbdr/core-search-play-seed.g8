@@ -6,3 +6,5 @@ target
 /.project
 /.settings
 /RUNNING_PID
+server-enabled
+conf/secrets.conf

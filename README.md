@@ -13,7 +13,6 @@ sbt new cbdr/core-search-play-seed.g8
 ```
 You will be prompted to enter some variables
 ```sh
-name [search-seed]:
 scala_version [2.12.2]:
 scalatestplusplay_version [3.0.0]: 
 play_version [2.6.0]: 
@@ -57,15 +56,29 @@ _Note: This file should be used as a template and not as the actual production c
 # Deployment
 
 ### AWS ECS
+The following steps will guide to the the process of setting up a Jenkins build job for your application and creating the jobs for deploying the application into the search team AWS ecs cluster.
 
 #### Setup jenkins CI build
-Follow the instructions at :https://github.com/cbdr/CloudOps/blob/master/Jenkins/Readme.md to add a jenkins job for building your application and publishing an artifact of your appliction into dockerhub.
+Go to https://jenkins.cloudops.careerbuilder.com/job/Shared/job/CIJobMaker/ and click on build with parameters where and set the values: JobPath: Search/search-seed(replace with the name you during the instance creation)/Build the other parameters are self explanatory, that will create a pull request at: https://github.com/cbdr/CloudOps which you need cloudops to approve and a build job will be added to https://jenkins.cloudops.careerbuilder.com/job/Search/ . Additional information can be found at:https://github.com/cbdr/CloudOps/blob/master/Jenkins/Readme.md 
 
-#### Setup jenkins jobs to deploy the application into the search docker clusters
-Follow the instructions at :https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md to create and run the jenkins deployment jobs.
+Note: Make sure the application generated is added into the cbdr github account, and add the repo to Search team as a collaborator admin, also a webhook to https://jenkins.cloudops.careerbuilder.com/github-webhook/ should be added to auto trigger builds on push.
 
-#### Production configurations
-Containers resources 
+#### Setup jenkins jobs to deploy the application into the search ECS clusters
+Follow the instructions at :https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md to create and run the jenkins deployment jobs for all your production environments.
+
+##### Adding application configurations per environment
+Play configuration files can be customized using environment variables/and amazon parameter store. Review https://github.com/cbdr/CloudOps/blob/master/Documentation/ECS.md#configuration-and-secret-storage-for-ecs-applications for more information, just think that parameters at the parameter store are set as environment variables for the docker container and the play application may use it on it's configurations by setting it as \${?VARIABLE_NAME} on any play application configuration file (https://www.playframework.com/documentation/2.6.x/ProductionConfiguration#Using-environment-variables)
+
+##### Database configurations required by the seed generated application
+Add the AURORA_USER, AURORA_PASSWORD and AURORA_URL environment variables to the parameter store
+
+##### New relic configurations required by the seed generated application
+Add the NEWRELIC_KEY and NEWRELIC_APPNAME environment variables to the parameter store.
+
+##### Production configurations
+Configurations regarding healthcheck, containers autoscale and container resources required can be found at: https://github.com/cbdr/CloudOps/tree/master/terraform/search the main.tf of each environment of your application hosts those configurations.
+
+Instances hosting ECS can be customized at: https://github.com/cbdr/CloudOps/blob/cb76dc6d22cf6fcb8a00e66db1c6c8be0aae4df0/Jenkins/Config/ECSClusters.json
 
 ### Nimbus(deprecated)
 There is a [Nimbus template][1] for a typical Play Framework application and an example [Nimbus settings file][2] that you can reference.

@@ -13,6 +13,7 @@ RUN unzip newrelic-java.zip
 RUN rm newrelic-java.zip
 COPY target/universal/stage /app
 COPY scripts/start.sh /app/bin
+RUN ["chmod", "+x", "/app/bin/start.sh"]
 COPY conf/newrelic.yml /newrelic/
 
 ENTRYPOINT ["/app/bin/start.sh"]

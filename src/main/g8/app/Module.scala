@@ -1,4 +1,6 @@
 import com.google.inject.AbstractModule
+import customerkey.dao.CustomerKeyDAOImpl
+import customerkey.model.CustomerKeyDAO
 import play.api.libs.concurrent.AkkaGuiceSupport
 
 /**
@@ -17,12 +19,7 @@ class Module extends AbstractModule with AkkaGuiceSupport{
     /**
       * Example of normal DI for Play
       */
-    //bind(classOf[TraitName]).to(classOf[ClassThatImplementsTrait])
-
-    /**
-      * Example of Akka actor DI for Play
-      */
-    //bindActor[ActorClass]("actorNameUsedForDI")
+    bind(classOf[CustomerKeyDAO]).to(classOf[CustomerKeyDAOImpl])
   }
 
 }
