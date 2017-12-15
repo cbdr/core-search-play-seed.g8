@@ -23,12 +23,14 @@ docker run -e AURORA_URL='jdbc:mysql://HOST:PORT' -e AURORA_USER='USER' -e AUROR
 
 You can see the application running at: http://localhost/
 
+Note: If you see a new relic error don't worry, or if you want to send data from your local container just add the NEWRELIC_KEY and NEWRELIC_APPNAME environment variables.
+
 ### Run the application on your local server
 
 This is the recommended aproach during development stages
 
 ```sh
-sbt run -DAURORA_URL=jdbc:mysql://HOST:PORT -DAURORA_USER=USER -D AURORA_PASSWORD=PWD
+sbt run -DAURORA_URL=jdbc:mysql://HOST:PORT -DAURORA_USER=USER -DAURORA_PASSWORD=PWD
 ```
 
 You can see the application running at: http://localhost:9000/
