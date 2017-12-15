@@ -23,7 +23,7 @@ class LoggingFilter @Inject()(val configuration: Configuration)(implicit val mat
       val requestTime = endTime - startTime
       val requestId = requestHeader.headers.get(REQUEST_ID_HEADER).getOrElse("")
       val logString =
-        s"""{ "applicationName":"search-seed","environment":"\${currentEnvironment}","httpVerb":"\${requestHeader.method}","uri":"\${requestHeader.uri}","requestId":"\${requestId}","requestTimeMs":"\${requestTime}","statusCode":"\${result.header.status}"}"""
+        s"""{ "applicationName":"$name$","environment":"\${currentEnvironment}","httpVerb":"\${requestHeader.method}","uri":"\${requestHeader.uri}","requestId":"\${requestId}","requestTimeMs":"\${requestTime}","statusCode":"\${result.header.status}"}"""
 
       if (result.header.status >= 300) {
         Logger.error(logString)
