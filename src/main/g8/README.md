@@ -28,7 +28,7 @@ You can see the application running at: http://localhost/
 This is the recommended aproach during development stages
 
 ```sh
-sbt run -DAURORA_URL=jdbc:mysql://usserenity-dbcluster1-1rr27xsvjwtcr.cluster-ci7amtl2mm8i.us-east-1.rds.amazonaws.com:3306 -DAURORA_USER=SearchUser01 -D AURORA_PASSWORD=S34rchS0lr
+sbt run -DAURORA_URL=jdbc:mysql://HOST:PORT -DAURORA_USER=USER -D AURORA_PASSWORD=PWD
 ```
 
 You can see the application running at: http://localhost:9000/
